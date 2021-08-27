@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Orion | Create Post
+{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="/static/css/login.css">
+
+<script>
+    window.onload = () => {
+        let inputs = document.querySelectorAll("input");
+        inputs[1].placeholder = "Title"
+        let select = document.querySelector("select")
+        select.className = "form-select"
+        let c = "{{ c }}"
+        select.children[parseInt(c)].defaultSelected = true;
+    }
+</script>
+
+    <form method="POST" class="form login">
+            {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+          {{ message|striptags }}
+        </div>
+    {% endfor %}
+        <h2>Create Post</h2>
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.title }}
+        <br/>
+        {{ form.description }}
+        <br/>
+        {{ form.community }}
+        <br/>
+        <div class="form__field">
+        <input type="submit" value="Post">
+        </div>
+    </form>
+
+{% endblock %}

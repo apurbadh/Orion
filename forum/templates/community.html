@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Orion | {% if community %} {{ community.name }} {% else %} Not Found {% endif %}
+{% endblock %}
+
+{% block body %}
+{% if community %}
+<link rel="stylesheet" href="/static/css/home.css"/>
+    <div class="main-container">
+      <div class="profile">
+        <div class="profile-avatar">
+          <img src="/media/{{ community.profile }}" alt="" class="profile-img">
+          <h1 class="profile-name">{{ community.name }}</h1>
+        </div>
+        <img src="/media/{{ community.banner }}" alt="" class="profile-cover">
+        <div class="profile-menu">
+            {% if user.is_authenticated %}
+                {% if joined %}
+                    <p class="profile-menu-link"> <a href="/create?c={{ community.id }}"><button class="status-share">Post</button></a></p>
+                {% else %}
+                    <p class="profile-menu-link"><form method="POST">{% csrf_token %}<button class="status-share" type="submit" style="margin-top: 5px;">Join</button></form></p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+      <div class="timeline">
+        <div class="timeline-left">
+          <div class="intro box">
+            <div class="intro-title">
+              Description
+            </div>
+            <div class="info">
+            <div class="info-item">
+                {{ community.description }}
+            </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    
+    
+        {% for post in posts %}
+          <div class="album box" style="font-size: large;">
+            <div class="status-main">
+
+              <img src="/media/{{ post.user.profile.profile_pic }}" class="status-img" />
+              <div class="album-detail">
+                <div class="album-title"><strong><a href="/u/{{ post.user.id }}" style="text-decoration: none; color: white">{{ post.user }}</a></strong> posted on <span><a href="/c/{{ post.community.id }}" style="text-decoration: none; color: white">{{ post.community }}</a></span></div>
+                <div class="album-date">{{ post.created_on }}</div>
+              </div>
+            </div>
+            <div class="album-content" style="width: 500%;">
+              <div class="info-item" style="font-size: large;">
+                {{ post.description|safe }}
+            </div>
+            </div>
+            <div class="album-actions">
+              <a href="#" class="album-action">
+                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                </svg>
+                {{ post.likes.count }}
+              </a>
+            </div>
+</div>
+
+          
+        {% endfor %}
+
+{% else %}
+<h1>Not Found</h1>
+{% endif %}
+{% endblock %}

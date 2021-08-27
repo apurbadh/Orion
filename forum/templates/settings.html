@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Orion | Settings
+{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="/static/css/login.css">
+
+<script>
+    window.onload = () => {
+        let inputs = document.querySelectorAll("input");
+        inputs[1].placeholder = "Full Name"
+        let textarea = document.querySelector("textarea")
+        textarea.placeholder = "Description"
+    }
+</script>
+
+    <form method="POST" class="form login" enctype="multipart/form-data" >
+            {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+          {{ message|striptags }}
+        </div>
+    {% endfor %}
+        <h2>Settings</h2>
+        {% csrf_token %}
+        {{ form.full_name }}
+        <br/>
+        {{ form.description }}
+        <br/>
+        <label>Profile Picture : <br/><br/>{{ form.profile_pic }}</label>
+        <br/>
+        <div class="form__field">
+        <input type="submit" value="Change">
+        </div>
+    </form>
+
+{% endblock %}

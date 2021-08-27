@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Orion | Create Community 
+{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="/static/css/login.css">
+
+<script>
+    window.onload = () => {
+        let inputs = document.querySelectorAll("input");
+        inputs[1].placeholder = "Community Name"
+        let textarea = document.querySelector("textarea")
+        textarea.placeholder = "Description"
+    }
+</script>
+
+    <form method="POST" class="form login" enctype="multipart/form-data">
+    {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+          {{ message|striptags }}
+        </div>
+    {% endfor %}
+        <h2>Create Community</h2>
+        {% csrf_token %}
+        {{ form.name }}
+        <br/>
+        {{ form.description }}
+        <br/>
+        <label>Community Picture : <br/><br/>{{ form.profile }}</label>
+        <label>Banner : <br/><br/>{{ form.banner }}</label>
+        <br/>
+        <div class="form__field">
+        <input type="submit" value="Create Community">
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Orion | {% if post %} {{ post.title }} {% else %} Not Found {% endif %}
+{% endblock %}
+
+{% block body %}
+{% if post %}
+    <h2>{{ post.title }}</h2>
+    {{ post.description|safe }}
+    {% if user.is_authenticated %}
+        <form method="POST" class="form login">
+            {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+          {{ message|striptags }}
+        </div>
+    {% endfor %}
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.comment }}
+        <div class="form__field">
+        <input type="submit" value="Comment">
+        </div>
+    </form>
+    {% endif %}
+    {% for comment in comments %}
+        {{ comment.comment|safe }}
+    {% endfor %}
+{% else %}
+<h1>Not Found</h1>
+{% endif %}
+
+{% endblock %}
