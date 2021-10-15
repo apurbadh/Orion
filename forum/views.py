@@ -1,4 +1,3 @@
-from django.http.response import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from .forms import UserForm, PostForm, CommunityForm, SettingForm, CommentForm
 from django.contrib import messages
